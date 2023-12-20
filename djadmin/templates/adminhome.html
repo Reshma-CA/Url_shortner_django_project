@@ -1,0 +1,61 @@
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input style="background-color:#FFFFF0;" type="text" name="searchitem" class="form-control" id="navbar-search-input" placeholder="Search user" aria-label="search" aria-describedby="search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>firstname</th>
+                                    <th>Lastname</th>
+                                    <th>Email</th>
+                                    <th>Number of shorterned links</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in datas %}
+                                <tr>
+                                    <td>{{ item.Firstname }}</td>
+                                    <td>{{ item.Lastname }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.shortcode }}</td>
+                                    <td>
+                                        {% if item.isblocked %}
+                                        <a href="{% url 'admin_unblockuser' item.id %}?action=unblock" class="btn btn-success" onclick="return confirm('Are you sure you want to unblock this user?')">Unblock</a>
+                                        {% else %}
+                                        {% comment %} <a href="{% url 'admin_blockuser' item.id %}" class="btn btn-warning btn-sm">Block</a> {% endcomment %}
+                                        <a href="{% url 'admin_blockuser' item.id %}?action=block" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to block this user?')">Block</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="{% url 'admin_logout' %}" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
